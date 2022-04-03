@@ -1,0 +1,27 @@
+
+.ant-table{
+    height: calc(100% - 70px);
+    overflow: auto;
+}
+.ant-spin-container{
+    position: relative;
+    height: 100%;
+}
+.ant-table-wrapper{
+    height:100%;
+}
+.ant-spin-nested-loading{
+   height:100%;
+}
+.ant-table-pagination.ant-pagination{
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+.ant-pagination-total-text{
+    position: absolute;
+    left: 10px;
+}
+.ant-table-body{
+    position: absolute;
+}

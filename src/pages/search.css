@@ -1,0 +1,47 @@
+.qhh{
+    position: relative;
+    width:100%;
+    height:100%;
+    /* overflow: hidden; */
+}
+.qhh-search{
+    position: relative;
+    width:100%;
+    border-bottom:1px solid #ccc;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-y:hidden;
+    padding-left: 20px;
+}
+.qhh-search ul{
+    width:250px;
+    height:80px;
+    margin:10px;
+    padding: 0;
+}
+p[ type = 'title']{
+    margin: 10px 0;
+    padding: 0;
+}
+ul[class = 'rangePicker']{
+    width:350px;
+}
+ul[class = 'btns']{
+    position: absolute;
+    right:20px;
+    width:350px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.btns-search{
+    margin-left:10px;
+    margin-top:33px ;
+    width: 100px;
+}
+.qhh-table{
+    width: 100%;
+    height:calc(100% - 101px);
+    overflow: auto;
+}
