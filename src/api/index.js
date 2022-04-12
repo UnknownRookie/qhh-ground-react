@@ -5,19 +5,18 @@ const config = {
     timeout: 5000
 }
 const API = {
-    get: (url) => {
+    get: (url,params) => {
         return new Promise((resolve, reject) => {
-            axios.get(url).then(({ data }) => {
+            axios.get(url,{params}).then(res => {  
+                resolve(res.data)
 
-                if (!data) return
-                resolve(data)
             }).catch(e => {
                 reject(e)
             })
         })
     },
     post: (url, params) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {    
             axios.post(url, params, config).then(({ data }) => {
                 if (!data) return
                 resolve(data)

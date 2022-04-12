@@ -20,7 +20,10 @@ const columns = [{
     title: '性别',
     dataIndex: 'visitorSex',
     key:'visitorSex',
-    width:100
+    width:100,
+    render:(val)=>{
+        return val === 1?'男':'女'
+    }
 },
 {
     title: '被访人姓名',
@@ -30,14 +33,14 @@ const columns = [{
 },
 {
     title: '访客卡号',
-    dataIndex: 'visitorSvrCode',
-    key:'visitorSvrCode',
+    dataIndex: 'cardNum',
+    key:'cardNum',
     ellipsis: {
         showTitle: false,
     },
-    render: visitorSvrCode => (
-        <Tooltip placement="topLeft" title={visitorSvrCode}>
-            {visitorSvrCode}
+    render: cardNum => (
+        <Tooltip placement="topLeft" title={cardNum}>
+            {cardNum}
         </Tooltip>
     ),
 },
@@ -84,18 +87,18 @@ const columns = [{
     title: '抓拍照片',
     dataIndex: 'visitorPhotoUri',
     key:'visitorPhotoUri',
-    render: () => <img src="visitorPhotoUri" style={{width:50,height:50}} alt="" />,
+    render: url => <img src={url} style={{width:60,height:60}} alt="" />,
 },
 {
     title: '事件时间点',
-    dataIndex: 'eventTime',
-    key:'eventTime',
+    dataIndex: 'happenTimePage',
+    key:'happenTimePage',
     ellipsis: {
         showTitle: false,
     },
-    render: eventTime => (
-        <Tooltip placement="topLeft" title={eventTime}>
-            {eventTime}
+    render: happenTimePage => (
+        <Tooltip placement="topLeft" title={happenTimePage}>
+            {happenTimePage}
         </Tooltip>
     ),
 },]
@@ -108,7 +111,7 @@ export default class table extends Component {
             pageNo:1,
             pageSize:10,
             tableData: [],
-            selectedRowKeys:[],
+            prevPagesize:10
         }
     }
 
@@ -119,32 +122,36 @@ export default class table extends Component {
                 total:this.props.tableData.total
             })
         }
-    }
-    onChange(page, pageSize){
-        this.setState({
-            pageNo:page,
-            pageSize
-        })
         
-       this.props.parent.onSearch(page, pageSize)
     }
-    onSelectChange = (selectedRowKeys,selectedRows) => {
+    onChange(pageNo, pageSize){
+        if(pageSize !== this.state.prevPagesize){
+            pageNo = 1
+        }
         this.setState({
-            selectedRowKeys
-        })
-        this.props.parent.setState({
-            selectedRows:selectedRows
-        })
-    };
+            pageNo,
+            pageSize,
+            prevPagesize:pageSize
+        })  
+       this.props.parent.onSearch(pageNo, pageSize)
+    }
+    // onSelectChange = (selectedRowKeys,selectedRows) => {
+    //     this.setState({
+    //         selectedRowKeys
+    //     })
+    //     this.props.parent.setState({
+    //         selectedRows:selectedRows
+    //     })
+    // };
     render() {
-        const {selectedRowKeys} = this.state
-        const rowSelection = {
-          selectedRowKeys,
-          onChange: this.onSelectChange,
-        };
+        // const {selectedRowKeys} = this.state
+        // const rowSelection = {
+        //   selectedRowKeys,
+        //   onChange: this.onSelectChange,
+        // };
         return (
             <ConfigProvider locale={zhCN}>
-                <Table rowSelection={rowSelection}  columns={columns} dataSource={this.state.tableData && this.state.tableData.rows}
+                <Table  columns={columns} dataSource={this.state.tableData && this.state.tableData.rows}
                     pagination={{
                         position: ['bottomRight'],
                         showSizeChanger: true,
@@ -155,7 +162,6 @@ export default class table extends Component {
                         pageSizeOptions: ['10', '20', '30', '50'],
                         onChange: (current,pageSize)=>this.onChange(current,pageSize)
                     }} 
-                   scroll = {{y:'calc(100% - 70px)'}}
                 />
             </ConfigProvider>
         )
